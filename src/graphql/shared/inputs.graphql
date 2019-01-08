@@ -1,0 +1,4 @@
+input Order {
+    orderBy: String!
+    orderType: Ordering
+}

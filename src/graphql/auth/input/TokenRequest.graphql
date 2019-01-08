@@ -1,0 +1,7 @@
+input TokenRequest {
+    clientId: Int!
+    clientSecret: String!
+    username: String!
+    password: String
+    grantType: String!
+}

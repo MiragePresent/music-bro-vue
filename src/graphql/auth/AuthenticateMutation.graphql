@@ -1,0 +1,6 @@
+#import "./input/TokenRequest.graphql"
+#import "./type/AccessToken.graphql"
+
+mutation ($data: TokenRequest!) {
+    authenticate(data: $data): AccessToken
+}

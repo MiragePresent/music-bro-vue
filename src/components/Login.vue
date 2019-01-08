@@ -23,46 +23,37 @@
 </template>
 
 <script>
-  import { gql } from 'vue-apollo'
+  import { JWS_TOKEN_ISSUE_MUTATION } from '../graphql/schema';
 
   export default {
-    name: 'Login',
-    data () {
+    data() {
       return {
         username: '',
         password: '',
-        clientId: 2,
-        clientPassword: 'ymzoA1XMXfGlWdBaV4gQ7TG0oDrmRIFWKES12dC8',
-      }
+      };
     },
     methods: {
-      auth: () => {
-        const {username, password, clientId, clientSecret} = this
-        const grantType = 'password'
+      auth(e) {
+        e.preventDefault();
+        console.log('sending...', JWS_TOKEN_ISSUE_MUTATION);
 
-        console.log(this.$apolloProvider);
+        const { username, password } = this;
 
         this.$apollo.mutate({
-          mutation: gql`mutation($data: AuthData!) {
-            tokenIssue(data: $data) {
-                accessToken
-                refreshToken
-                expireIn
-            }
-          }`,
+          mutation: JWS_TOKEN_ISSUE_MUTATION,
           variables: {
             data: {
               username,
               password,
-              clientId,
-              clientSecret,
-              grantType
-            }
-          }
+              clientId: '2',
+              clientSecret: 'ymzoA1XMXfGlWdBaV4gQ7TG0oDrmRIFWKES12dC8',
+              grantType: 'password',
+            },
+          },
         }).then(data => {
-          console.log(data)
+        //   console.log(data);
         })
       }
-    },
+    }
   }
 </script>

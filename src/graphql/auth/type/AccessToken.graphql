@@ -1,0 +1,6 @@
+type AccessToken {
+    accessToken: String!
+    refreshToken: String!
+    expiresIn: Int!
+    tokenType: String!
+}
