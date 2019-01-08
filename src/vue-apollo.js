@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+
 /* eslint-disable-next-line  */
 import { createApolloClient } from 'vue-cli-plugin-apollo/graphql-client';
 // import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client';
@@ -14,13 +17,23 @@ const baseUrl = 'https://playing-with-lumen.test';
 
 // Http endpoint
 const httpEndpoint = `${baseUrl}/graphql`;
+const httpLink = createHttpLink({
+  uri: httpEndpoint,
+  credentials: 'same-origin',
+});
+
+const accessToken = localStorage.getItem('accessToken');
+const authLink = setContext((_, { headers }) => Object.assign(
+  headers,
+  { authorization: accessToken ? `Bearer ${accessToken}` : '' },
+));
 
 Vue.prototype.$filesRoot = baseUrl;
 
 // Config
 const defaultOptions = {
   // You can use `https` for secure connection (recommended in production)
-  httpEndpoint,
+  // httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
   // wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql',
@@ -37,7 +50,7 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  // link: myLink
+  link: authLink.concat(httpLink),
 
   // Override default cache
   // cache: myCache
@@ -52,58 +65,7 @@ const defaultOptions = {
   // clientState: { resolvers: { ... }, defaults: { ... } }
 };
 
-// Call this in the Vue app file
-export function createProvider(options = {}) {
-  // Create apollo client
-  const apolloOptions = Object.assign(defaultOptions, options);
-  const { apolloClient } = createApolloClient(apolloOptions);
-  // apolloClient.wsClient = wsClient
+// Create apollo client
+const { apolloClient } = createApolloClient(defaultOptions);
 
-  // Create vue apollo provider
-  const apolloProvider = new VueApollo({
-    defaultClient: apolloClient,
-    defaultOptions: {
-      $query: {
-        // fetchPolicy: 'cache-and-network',
-      },
-    },
-    errorHandler(error) {
-      // eslint-disable-next-line no-console
-      console.log('%cError', 'background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;', error.message);
-    },
-  });
-
-  return apolloProvider;
-}
-
-// Manually call this when user log in
-export async function onLogin(apolloClient, token) {
-  if (typeof localStorage !== 'undefined' && token) {
-    localStorage.setItem(AUTH_TOKEN, token);
-  }
-  // if (apolloClient.wsClient) {
-  //   restartWebsockets(apolloClient.wsClient);
-  // }
-  try {
-    await apolloClient.resetStore();
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (login)', 'color: orange;', e.message);
-  }
-}
-
-// Manually call this when user log out
-export async function onLogout(apolloClient) {
-  if (typeof localStorage !== 'undefined') {
-    localStorage.removeItem(AUTH_TOKEN);
-  }
-  // if (apolloClient.wsClient) {
-  //   restartWebsockets(apolloClient.wsClient);
-  // }
-  try {
-    await apolloClient.resetStore();
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (logout)', 'color: orange;', e.message);
-  }
-}
+export default apolloClient;

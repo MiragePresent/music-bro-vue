@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import { JWS_TOKEN_ISSUE_MUTATION } from '../graphql/schema';
+  import { mapActions } from 'vuex';
 
   export default {
     data() {
@@ -33,26 +33,11 @@
       };
     },
     methods: {
+      ...mapActions('auth', ['getToken']),
       auth(e) {
         e.preventDefault();
-        console.log('sending...', JWS_TOKEN_ISSUE_MUTATION);
-
-        const { username, password } = this;
-
-        this.$apollo.mutate({
-          mutation: JWS_TOKEN_ISSUE_MUTATION,
-          variables: {
-            data: {
-              username,
-              password,
-              clientId: '2',
-              clientSecret: 'ymzoA1XMXfGlWdBaV4gQ7TG0oDrmRIFWKES12dC8',
-              grantType: 'password',
-            },
-          },
-        }).then(data => {
-        //   console.log(data);
-        })
+        const {username, password} = this;
+        this.getToken({ username, password });
       }
     }
   }

@@ -7,7 +7,7 @@ import Vuetify from 'vuetify';
 
 import router from './router';
 import App from './App.vue';
-import { createProvider } from './vue-apollo';
+import store from './store';
 
 import 'vuetify/dist/vuetify.min.css';
 
@@ -20,7 +20,7 @@ Vue.use(Vuetify);
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  apolloProvider: createProvider(),
   components: { App },
 });
