@@ -1,0 +1,53 @@
+#import "./shared/enums.graphql"
+#import "./shared/inputs.graphql"
+
+type Query {
+    listUsers(count: Int, order: Order): [User!]! @field(resolver: "Users@list")
+    user(id: ID @eq): User @find
+    me: User @auth
+}
+
+type Mutation {
+    createUser(
+        name: String @rules(apply: ["required"])
+        email: String @rules(apply: ["required", "email", "unique:users,email"])
+    ): User @create(model: "App\\User")
+    updateUser(
+        id: ID @rules(apply: ["required"])
+        name: String
+        email: String @rules(apply: ["email"])
+    ): User @update(model: "App\\User")
+    deleteUser(
+        id: ID @rules(apply: ["required"])
+    ): User @delete(model: "App\\User")
+    authenticate(data: TokenRequest!): AccessToken! @field(resolver: "Authenticate@issueToken")
+}
+
+type User {
+    id: ID!
+    email: String!
+    username: String!
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    created_at: DateTime!
+    updated_at: DateTime!
+    tracks(count: Int): [Track]!
+}
+
+type Track {
+    id: ID!
+    name: String!
+    album: Album!
+}
+
+type Album {
+    id: ID!
+    name: String!
+    thumb: String!
+    artists: [Artist!]!
+}
+
+type Artist {
+    id: ID!
+    name: String!
+}

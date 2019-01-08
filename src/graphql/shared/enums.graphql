@@ -1,0 +1,8 @@
+enum Ordering {
+    ASC
+    DESC
+}
+
+enum GrantType {
+    PASSWORD @enum(value: "password")
+}
