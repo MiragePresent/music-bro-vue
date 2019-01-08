@@ -38,6 +38,7 @@
         e.preventDefault();
         const {username, password} = this;
         this.getToken({ username, password });
+        this.$router.replace('/');
       }
     }
   }

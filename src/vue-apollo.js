@@ -23,9 +23,10 @@ const httpLink = createHttpLink({
 });
 
 const accessToken = localStorage.getItem('accessToken');
+const tokenType = localStorage.getItem('accessToken');
 const authLink = setContext((_, { headers }) => Object.assign(
   headers,
-  { authorization: accessToken ? `Bearer ${accessToken}` : '' },
+  { authorization: accessToken ? `${tokenType} ${accessToken}` : '' },
 ));
 
 Vue.prototype.$filesRoot = baseUrl;
