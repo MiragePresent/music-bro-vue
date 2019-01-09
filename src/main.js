@@ -8,13 +8,14 @@ import Vuetify from 'vuetify';
 import router from './router';
 import App from './App.vue';
 import store from './store';
+import theme from './theme';
 
 import 'vuetify/dist/vuetify.min.css';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueApollo);
-Vue.use(Vuetify);
+Vue.use(Vuetify, { theme });
 
 /* eslint-disable no-new */
 new Vue({
