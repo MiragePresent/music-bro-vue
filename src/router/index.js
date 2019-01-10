@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Guard from './guard';
-import Hello from '../components/Hello.vue';
+import ConnectService from '../pages/ConnectService.vue';
 import Login from '../components/Login.vue';
 
 Vue.use(Router);
@@ -11,7 +11,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Hello,
+      component: ConnectService,
       meta: {
         middleware: ['auth'],
       },

@@ -24,7 +24,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.gql', '.graphql'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
     }
   },
   module: {
