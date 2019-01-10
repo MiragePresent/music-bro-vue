@@ -6,7 +6,10 @@
                 v-for="service in services"
                 class="md6 xs12 service-card-box"
             >
-                <v-card class="white--text" :class="`${service.name}-card-color`">
+                <v-card
+                    class="white--text"
+                    :class="`${service.name}-card-color`"
+                >
                     <v-layout>
                         <v-flex class="xs5">
                             <v-img
@@ -63,5 +66,12 @@
         background: -webkit-linear-gradient(-45deg, #fc644f 1%,#ee5cbf 51%,#4ec7f2 100%);
         background: linear-gradient(135deg, #fc644f 1%,#ee5cbf 51%,#4ec7f2 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fc644f', endColorstr='#4ec7f2',GradientType=1 )
+    }
+    .google-play-music-card-color {
+        background: #fdbe5a;
+        background: -moz-linear-gradient(-45deg, #fdbe5a 0%, #fdbe5a 100%);
+        background: -webkit-linear-gradient(-45deg, #fdbe5a 0%,#fdbe5a 100%);
+        background: linear-gradient(135deg, #fdbe5a 0%,#fdbe5a 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdbe5a', endColorstr='#fdbe5a',GradientType=1 );
     }
 </style>
